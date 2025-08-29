@@ -35,4 +35,5 @@ from src.extractor import process_zip
 
 process_zip("documents.zip", output_dir="outputs")
 
+https://colab.research.google.com/drive/1TD-3cZkwUqd1qEGL3UtfI2EfBfJh8zUc?usp=sharing
 MIT License – free to use and modify
