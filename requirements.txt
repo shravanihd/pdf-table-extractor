@@ -1,0 +1,8 @@
+fitz
+pytesseract
+pdf2image
+camelot-py[cv]
+pandas
+pdfplumber
+tabula-py
+requests
