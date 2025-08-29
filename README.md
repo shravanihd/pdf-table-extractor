@@ -1,39 +1,87 @@
-# 📄 PDF Table Extractor
+This project extracts text and tables from PDFs using PyMuPDF, Camelot, pdfplumber, and Tesseract OCR.
+It works on both digital and scanned PDFs.
 
-A Python project to extract **text and tables** from PDFs.  
-Supports scanned PDFs (OCR), digital PDFs, and batch extraction from zip archives.
+🛠️ Features
 
----
+Extracts text from PDFs (OCR fallback for scanned)
 
-## ✨ Features
-- 🔹 Extract **digital text** with PyMuPDF
-- 🔹 Extract **scanned text** with Tesseract OCR
-- 🔹 Extract **tables** with Camelot & pdfplumber
-- 🔹 Batch process multiple PDFs from a `.zip` archive
-- 🔹 Save results as **CSV + JSON**
+Extracts tables with Camelot (primary) and pdfplumber (fallback)
 
----
+Saves outputs in CSV + JSON
 
-## 🚀 Installation
+Supports batch processing of PDFs inside ZIP files
 
-Clone the repo and install dependencies:
+📦 Installation
+!apt-get install -y tesseract-ocr poppler-utils ghostscript
+!pip install pymupdf camelot-py[cv] pdf2image pandas pdfplumber tabula-py requests pytesseract
 
-```bash
-git clone https://github.com/shravanihd/pdf-table-extractor.git
-cd pdf-table-extractor
-pip install -r requirements.txt
+⚙️ Usage
+from extractor import process_pdf, process_zip
 
-Usage
-Process a Single PDF
-from src.extractor import process_pdf
+# Single PDF
+process_pdf("document.pdf", output_prefix="results/output")
 
-results = process_pdf("sample.pdf", output_prefix="outputs/sample")
-print(results)
+# ZIP with multiple PDFs
+process_zip("archive.zip", output_dir="outputs")
 
-Process a Zip of PDFs
-from src.extractor import process_zip
 
-process_zip("documents.zip", output_dir="outputs")
+Outputs:
 
-https://colab.research.google.com/drive/1TD-3cZkwUqd1qEGL3UtfI2EfBfJh8zUc?usp=sharing
-MIT License – free to use and modify
+<pdf_name>_text.txt → Extracted text
+
+<pdf_name>_camelot_table.csv / .json → Tables (Camelot)
+
+<pdf_name>_plumber_table.csv / .json → Tables (pdfplumber)
+
+🔹 Project 2: LLM-Powered PDF Analysis Pipeline
+🚀 Overview
+
+This version extends the basic extractor with AI-powered analysis using OpenAI GPT models.
+It automatically generates summaries & structured insights in addition to CSV/JSON outputs.
+
+🛠️ Features
+
+Everything in Project 1 ✅
+
+Detects table titles + page numbers
+
+Generates AI summaries of the document
+
+Extracts structured insights in JSON format with LLM
+
+Saves CSV, JSON, and TXT outputs
+
+📦 Installation
+!apt-get install -y tesseract-ocr poppler-utils ghostscript
+!pip install pymupdf camelot-py[cv] pdf2image pandas pdfplumber tabula-py requests pytesseract openai
+
+⚙️ Usage
+from extractor_ai import process_zip
+
+# Process a ZIP archive of PDFs
+process_zip("archive.zip", output_dir="processed_pdfs")
+
+
+Outputs per PDF:
+
+<pdf_name>_table_titles.csv → Tables + Titles + Page Numbers
+
+<pdf_name>_table_titles.json → Same in JSON
+
+<pdf_name>_ai_summary.txt → LLM-generated summary
+
+<pdf_name>_ai_insights.txt → Structured insights (JSON-like)
+
+🧠 LLM Integration
+
+Set your OpenAI API key:
+
+import openai
+openai.api_key = "YOUR_API_KEY"
+
+
+Models used:
+
+gpt-4o-mini (fast, efficient)
+
+gpt-4o (detailed insights, heavier)
